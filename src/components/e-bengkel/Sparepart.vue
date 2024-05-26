@@ -9,12 +9,32 @@
             <b-col cols="3">
               <b-form-group class="search full">
                 <b-form-input
-                  v-model="tableProps.filter"
+                  v-model="filterQuery.name"
                   type="text"
                   debounce="500"
                   placeholder="Search"
                 ></b-form-input>
                 <i class="jam jam-search"></i>
+              </b-form-group>
+            </b-col>
+            <b-col cols="3">
+              <b-form-group>
+                <b-form-select
+                  style="font-size: 13px"
+                  v-model="filterQuery.category_id"
+                >
+                  <option value="0">All category</option>
+                  <option
+                    v-for="category in categories"
+                    :key="category.id"
+                    :value="category.id"
+                  >
+                    {{ category.name }}
+                  </option>
+                </b-form-select>
+                <b-form-invalid-feedback id="category_id-invalid-feedback">
+                  {{ errors.first("category_id") }}
+                </b-form-invalid-feedback>
               </b-form-group>
             </b-col>
             <b-col cols="auto">
@@ -32,8 +52,15 @@
         :per-page="tableProps.perpage"
         :current-page="tableProps.currentPage"
         :busy="tableProps.isBusy"
-        :filter="tableProps.filter"
       >
+        <template v-slot:table-busy>
+          <div class="text-center my-2 loading-table">
+            <div class="loading-color">
+              <b-spinner class="align-middle mr-3"></b-spinner>
+              <strong>{{ tableProps.errorMessage }}</strong>
+            </div>
+          </div>
+        </template>
         <template v-slot:cell(detail)="">
           <b-container fluid>
             <b-row align-h="center">
@@ -66,7 +93,7 @@
             </b-row>
           </b-container>
         </template>
-        <template v-slot:cell(delete)="">
+        <template v-slot:cell(delete)="data">
           <b-container fluid>
             <b-row align-h="center">
               <b-col cols="auto">
@@ -75,6 +102,7 @@
                   variant="primary"
                   title="Hapus"
                   class="btn-mt circle danger"
+                  @click="handleDelete(data.item)"
                 >
                   <i class="jam jam-trash-f"></i>
                 </b-button>
@@ -94,10 +122,17 @@
       </div>
     </div>
 
+    <DeleteModal
+      @ok="handleConfirmDelete()"
+      @cancel="handleCancel('delete-modal')"
+      @close="handleCancel('delete-modal')"
+    />
+
     <sparepartModal
       :actionType="action"
       @cancel="handleCancel('sparepart-form-modal')"
       @close="handleCancel('sparepart-form-modal')"
+      @saved="HandleData()"
     />
   </div>
 </template>
@@ -106,11 +141,13 @@
 import SparepartService from "@/services/SparepartService";
 import breadcrumbs from "../common/Breadcrumbs.vue";
 import SparepartModal from "../modals/SparepartModal.vue";
+import DeleteModal from "../modals/DeleteModal.vue";
 
 export default {
   components: {
     breadcrumbs,
     SparepartModal,
+    DeleteModal,
   },
   data() {
     return {
@@ -119,6 +156,8 @@ export default {
         items: [],
         perpage: 5,
         currentPage: 1,
+        errorMessage: "",
+        isBusy: false,
         filter: null,
         fields: [
           {
@@ -176,18 +215,30 @@ export default {
         ],
       },
       action: "I",
+      selectedItem: undefined,
+      categories: [],
+      filterQuery: {
+        name: "",
+        category_id: 0,
+      },
     };
   },
 
   methods: {
     HandleData() {
-      SparepartService.GetAll()
+      const query = {
+        name: this.filterQuery.name,
+        category_id: this.filterQuery.category_id,
+      };
+      this.tableProps.isBusy = true;
+      SparepartService.GetAll(query)
         .then((res) => {
-          console.log("🚀 ~ SparepartService.GetAll ~ data:", res.data.data);
+          this.tableProps.isBusy = false;
           this.tableProps.items = res.data.data;
         })
         .catch((err) => {
           console.log("🚀 ~ HandleData ~ err:", err);
+          this.tableProps.errorMessage = "data not found";
         });
     },
 
@@ -203,10 +254,64 @@ export default {
         this.$bvModal.hide(modalId);
       });
     },
+
+    handleDelete(item) {
+      console.log("🚀 ~ handleDelete ~ item:", item);
+      this.selectedItem = item;
+      this.$nextTick(() => {
+        this.$bvModal.show("delete-modal");
+      });
+    },
+
+    handleConfirmDelete() {
+      const id = this.selectedItem.id;
+      console.log("🚀 ~ handleConfirmDelete ~ id:", id);
+
+      this.tableProps.isBusy = true;
+      SparepartService.Delete(id)
+        .then((res) => {
+          this.tableProps.isBusy = false;
+
+          this.$notify({
+            group: "message",
+            title: "Success",
+            text: res.data.message,
+            type: "success",
+            duration: 5000,
+          });
+          this.HandleData();
+        })
+        .catch((err) => {
+          console.log("🚀 ~ SparepartService.Delete ~ err:", err);
+        });
+
+      this.$bvModal.hide("delete-modal");
+    },
+
+    fetchSparepartCategory() {
+      SparepartService.GetAllCategory()
+        .then((res) => {
+          this.categories = res.data.data;
+        })
+        .catch((err) => {
+          console.log("🚀 ~ fetchSparepartCategory ~ err:", err);
+        });
+    },
+  },
+
+  watch: {
+    filterQuery: {
+      handler: function (newVal, oldVal) {
+        this.tableProps.currentPage = 1;
+        this.HandleData();
+      },
+      deep: true,
+    },
   },
 
   mounted() {
     this.HandleData();
+    this.fetchSparepartCategory();
   },
 };
 </script>

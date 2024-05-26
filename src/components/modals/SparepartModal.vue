@@ -91,7 +91,7 @@
         <b-row align-h="end">
           <b-col cols="auto">
             <button
-              class="btn btn-mt btn-danger outlined"
+              class="btn btn-mt btn-secondary outlined"
               @click="handleCancel()"
             >
               cancel
@@ -212,7 +212,7 @@ export default {
               duration: 5000,
             });
             this.$emit("close");
-            window.location.reload();
+            this.$emit("saved");
           })
           .catch((err) => {
             console.log("🚀 ~ SparepartService.GetAllCategory ~ err:", err);
