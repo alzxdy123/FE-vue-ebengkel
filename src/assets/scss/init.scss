@@ -1,0 +1,18 @@
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "InterRegular",
+  Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-size-base: 0.8125rem;
+
+@import "./colors.scss";
+@import "./buttons.scss";
+@import "./common.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap-vue/src/index.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-base;
+}

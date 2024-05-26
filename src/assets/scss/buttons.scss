@@ -1,0 +1,20 @@
+@import "./colors.scss";
+
+.add-button {
+  background-color: $blue;
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+  padding: 10px 20px 10px 20px;
+  border: none;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+
+  i {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+}
