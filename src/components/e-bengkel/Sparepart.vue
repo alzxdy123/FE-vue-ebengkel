@@ -93,16 +93,24 @@
         </div>
       </div>
     </div>
+
+    <sparepartModal
+      :actionType="action"
+      @cancel="handleCancel('sparepart-form-modal')"
+      @close="handleCancel('sparepart-form-modal')"
+    />
   </div>
 </template>
 
 <script>
 import SparepartService from "@/services/SparepartService";
 import breadcrumbs from "../common/Breadcrumbs.vue";
+import SparepartModal from "../modals/SparepartModal.vue";
 
 export default {
   components: {
     breadcrumbs,
+    SparepartModal,
   },
   data() {
     return {
@@ -183,8 +191,17 @@ export default {
         });
     },
 
-    RowsItems() {
-      return this.tableProps.items.length;
+    handleAdd() {
+      this.action = "I";
+      this.$nextTick(() => {
+        this.$bvModal.show("sparepart-form-modal");
+      });
+    },
+
+    handleCancel(modalId) {
+      this.$nextTick(() => {
+        this.$bvModal.hide(modalId);
+      });
     },
   },
 

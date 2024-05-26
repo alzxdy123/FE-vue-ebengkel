@@ -7,4 +7,17 @@ export default {
     config = header.authHeader();
     return AXIOS.get("/v1/sparepart", config);
   },
+  Add(reqBody) {
+    let config = {};
+    config = header.authHeader();
+    return AXIOS.post("/v1/sparepart", reqBody, config);
+  },
+
+  //Spacepart Category
+
+  GetAllCategory() {
+    let config = {};
+    config = header.authHeader();
+    return AXIOS.get("/v1/sparepart-category", config);
+  },
 };

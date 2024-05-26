@@ -1,11 +1,5 @@
 <template>
-  <b-modal
-    id="sparepart-form-modal"
-    centered
-    hide-header-close
-    size="lg"
-    @hidden="handleCancel"
-  >
+  <b-modal id="sparepart-form-modal" centered hide-header-close size="md">
     <template #modal-header>
       <b-container fluid class="py-2">
         <b-row align-h="center">
@@ -19,7 +13,7 @@
       <b-form>
         <b-row>
           <b-col cols="12">
-            <b-form-group :label="$t('label.name')">
+            <b-form-group label="name">
               <b-form-input
                 v-model="formData.name"
                 name="name"
@@ -33,7 +27,7 @@
             </b-form-group>
           </b-col>
           <b-col cols="6">
-            <b-form-group :label="$t('label.stock')">
+            <b-form-group label="stock">
               <b-form-input
                 v-model="formData.stock"
                 name="stock"
@@ -48,7 +42,7 @@
             </b-form-group>
           </b-col>
           <b-col cols="6">
-            <b-form-group :label="$t('label.price')">
+            <b-form-group label="price">
               <b-form-input
                 v-model="formData.price"
                 name="price"
@@ -63,19 +57,53 @@
             </b-form-group>
           </b-col>
         </b-row>
+        <b-row>
+          <b-col cols="12">
+            <b-form-group label="Category">
+              <b-form-select
+                style="font-size: 13px"
+                v-model="formData.category_id"
+                name="category_id"
+                v-validate="formRules.category_id"
+                data-vv-as="Category"
+                :state="validateState('category_id')"
+              >
+                <!-- <option value="" disabled>Select category</option> -->
+                <option
+                  v-for="category in categories"
+                  :key="category.id"
+                  :value="category.id"
+                  style="font-size: 13px; font-weight: 600"
+                >
+                  {{ category.name }}
+                </option>
+              </b-form-select>
+              <b-form-invalid-feedback id="category_id-invalid-feedback">
+                {{ errors.first("category_id") }}
+              </b-form-invalid-feedback>
+            </b-form-group>
+          </b-col>
+        </b-row>
       </b-form>
     </b-container>
     <template #modal-footer>
       <b-container fluid>
-        <b-row align-h="between">
+        <b-row align-h="end">
           <b-col cols="auto">
-            <button class="btn-mt secondary outlined" @click="handleCancel()">
-              {{ $t("action.cancel") }}
+            <button
+              class="btn btn-mt btn-danger outlined"
+              @click="handleCancel()"
+            >
+              cancel
             </button>
           </b-col>
           <b-col cols="auto">
-            <button class="btn-mt secondary" @click="handleSave()">
-              {{ $t("action.save") }}
+            <button
+              class="btn btn-mt"
+              @click="handleSave()"
+              style="background-color: #053364; color: white"
+            >
+              save
             </button>
           </b-col>
         </b-row>
@@ -85,6 +113,8 @@
 </template>
 
 <script>
+import SparepartService from "../../services/SparepartService";
+
 export default {
   name: "SparepartFormModal",
   props: {
@@ -106,16 +136,13 @@ export default {
   },
   computed: {
     modalTitle: function () {
-      return (
-        this.$t(`pages.${this.actionType === "I" ? "add" : "edit"}`) +
-        " " +
-        this.$t(`pages.sparepart`)
-      );
+      return (this.actionType === "I" ? "add" : "edit") + " " + "Sparepart";
     },
   },
   data() {
     return {
       formData: { ...this.sparepart },
+      categories: [],
       formRules: {
         name: {
           required: true,
@@ -123,12 +150,15 @@ export default {
         stock: {
           required: true,
           numeric: true,
-          min_value: 0, // Adjust as per your requirement
+          min_value: 0,
         },
         price: {
           required: true,
           numeric: true,
-          min_value: 0, // Adjust as per your requirement
+          min_value: 0,
+        },
+        category_id: {
+          required: true,
         },
       },
     };
@@ -148,16 +178,51 @@ export default {
       this.$emit("cancel");
     },
 
+    fetchSparepartCategory() {
+      SparepartService.GetAllCategory()
+        .then((res) => {
+          this.categories = res.data.data;
+        })
+        .catch((err) => {
+          console.log("🚀 ~ fetchSparepartCategory ~ err:", err);
+        });
+    },
+
     handleSave: function () {
       this.$validator.validateAll().then((result) => {
         if (!result) {
           return;
         }
 
-        // Perform save operation here
-        // You can access form data using this.formData
+        const reqBody = {
+          name: this.formData.name,
+          price: this.formData.price,
+          stock: this.formData.stock,
+          sparepart_category_id: this.formData.category_id,
+        };
+
+        SparepartService.Add(reqBody)
+          .then((res) => {
+            console.log("🚀 ~ SparepartService.GetAllCategory ~ res:", res);
+            this.$notify({
+              group: "message",
+              title: "Success",
+              text: res.data.message,
+              type: "success",
+              duration: 5000,
+            });
+            this.$emit("close");
+            window.location.reload();
+          })
+          .catch((err) => {
+            console.log("🚀 ~ SparepartService.GetAllCategory ~ err:", err);
+          });
       });
     },
+  },
+
+  mounted() {
+    this.fetchSparepartCategory();
   },
 };
 </script>

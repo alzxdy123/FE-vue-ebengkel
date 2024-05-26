@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./store";
 import VueApexCharts from "vue-apexcharts";
 import Notifications from "vue-notification";
-import VueJamIcons from "vue-jam-icons";
+// import VueJamIcons from "vue-jam-icons";
 // import i18n from "./tools/lang";
 
 import "jam-icons/css/jam.min.css";
@@ -27,7 +27,6 @@ Vue.use(VeeValidate, {
 });
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-Vue.use(VueJamIcons);
 Vue.use(VueApexCharts);
 Vue.component("apexchart", VueApexCharts);
 
