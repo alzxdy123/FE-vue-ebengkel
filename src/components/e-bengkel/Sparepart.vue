@@ -6,7 +6,7 @@
       <div class="form-navigation mb-4">
         <b-container fluid>
           <b-row no-gutters align-h="between">
-            <b-col cols="3">
+            <b-col cols="6" class="d-flex">
               <b-form-group class="search full">
                 <b-form-input
                   v-model="filterQuery.name"
@@ -16,11 +16,9 @@
                 ></b-form-input>
                 <i class="jam jam-search"></i>
               </b-form-group>
-            </b-col>
-            <b-col cols="3">
               <b-form-group>
                 <b-form-select
-                  style="font-size: 13px"
+                  style="font-size: 13px; margin-left: 10px; width: 150px"
                   v-model="filterQuery.category_id"
                 >
                   <option value="0">All category</option>
@@ -56,8 +54,11 @@
         <template v-slot:table-busy>
           <div class="text-center my-2 loading-table">
             <div class="loading-color">
-              <b-spinner class="align-middle mr-3"></b-spinner>
-              <strong>{{ tableProps.errorMessage }}</strong>
+              <b-spinner
+                class="align-middle mr-3"
+                v-if="!tableProps.errorMessage"
+              ></b-spinner>
+              <strong class="text-danger">{{ tableProps.errorMessage }}</strong>
             </div>
           </div>
         </template>
@@ -130,6 +131,7 @@
 
     <sparepartModal
       :actionType="action"
+      :categories="categories"
       @cancel="handleCancel('sparepart-form-modal')"
       @close="handleCancel('sparepart-form-modal')"
       @saved="HandleData()"
@@ -235,10 +237,11 @@ export default {
         .then((res) => {
           this.tableProps.isBusy = false;
           this.tableProps.items = res.data.data;
+          this.tableProps.errorMessage = "";
         })
         .catch((err) => {
           console.log("🚀 ~ HandleData ~ err:", err);
-          this.tableProps.errorMessage = "data not found";
+          this.tableProps.errorMessage = err;
         });
     },
 

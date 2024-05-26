@@ -127,6 +127,9 @@ export default {
       required: true,
       default: () => "I",
     },
+    categories: {
+      required: true,
+    },
   },
   watch: {
     sparepart: function (newVal, oldVal) {
@@ -142,7 +145,6 @@ export default {
   data() {
     return {
       formData: { ...this.sparepart },
-      categories: [],
       formRules: {
         name: {
           required: true,
@@ -178,16 +180,6 @@ export default {
       this.$emit("cancel");
     },
 
-    fetchSparepartCategory() {
-      SparepartService.GetAllCategory()
-        .then((res) => {
-          this.categories = res.data.data;
-        })
-        .catch((err) => {
-          console.log("🚀 ~ fetchSparepartCategory ~ err:", err);
-        });
-    },
-
     handleSave: function () {
       this.$validator.validateAll().then((result) => {
         if (!result) {
@@ -219,10 +211,6 @@ export default {
           });
       });
     },
-  },
-
-  mounted() {
-    this.fetchSparepartCategory();
   },
 };
 </script>
