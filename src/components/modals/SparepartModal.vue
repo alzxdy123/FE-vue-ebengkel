@@ -62,13 +62,12 @@
             <b-form-group label="Category">
               <b-form-select
                 style="font-size: 13px"
-                v-model="formData.category_id"
+                v-model="formData.sparepart_category_id"
                 name="category_id"
                 v-validate="formRules.category_id"
                 data-vv-as="Category"
                 :state="validateState('category_id')"
               >
-                <!-- <option value="" disabled>Select category</option> -->
                 <option
                   v-for="category in categories"
                   :key="category.id"
@@ -133,10 +132,16 @@ export default {
   },
   watch: {
     sparepart: function (newVal, oldVal) {
-      // Reset the form when a new sparepart is passed
-      this.formData = { ...newVal };
+      this.formData = {
+        name: newVal.name,
+        stock: newVal.stock,
+        price: newVal.price,
+        sparepart_category_id: newVal.sparepart_category_id,
+      };
+      this.oldData = { ...newVal };
     },
   },
+
   computed: {
     modalTitle: function () {
       return (this.actionType === "I" ? "add" : "edit") + " " + "Sparepart";
@@ -144,6 +149,7 @@ export default {
   },
   data() {
     return {
+      oldData: { ...this.sparepart },
       formData: { ...this.sparepart },
       formRules: {
         name: {
@@ -186,12 +192,31 @@ export default {
           return;
         }
 
-        const reqBody = {
+        const isUpdate = this.$props.actionType == "U";
+
+        const oldData = isUpdate
+          ? {
+              name: this.oldData.name,
+              stock: this.oldData.stock,
+              price: this.oldData.price,
+              sparepart_category_id: this.oldData.category_id,
+            }
+          : undefined;
+
+        const newData = {
           name: this.formData.name,
-          price: this.formData.price,
           stock: this.formData.stock,
-          sparepart_category_id: this.formData.category_id,
+          price: this.formData.price,
+          sparepart_category_id: this.formData.sparepart_category_id,
         };
+
+        const reqBody = {
+          id: isUpdate ? this.oldData.id : undefined,
+          oldData: isUpdate ? JSON.stringify(oldData) : undefined,
+          newData: JSON.stringify(newData),
+        };
+
+        console.log(reqBody);
 
         SparepartService.Add(reqBody)
           .then((res) => {

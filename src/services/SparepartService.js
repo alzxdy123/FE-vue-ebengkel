@@ -17,7 +17,7 @@ export default {
   Add(reqBody) {
     let config = {};
     config = header.authHeader();
-    return AXIOS.post("/v1/sparepart", reqBody, config);
+    return AXIOS.post("/v2/sparepart", reqBody, config);
   },
   Delete(id) {
     let config = {};

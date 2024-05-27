@@ -79,7 +79,7 @@
             </b-row>
           </b-container>
         </template>
-        <template v-slot:cell(edit)="">
+        <template v-slot:cell(edit)="data">
           <b-container fluid>
             <b-row align-h="center">
               <b-col cols="auto">
@@ -88,6 +88,7 @@
                   variant="primary"
                   title="Edit"
                   class="btn-mt circle secondary"
+                  @click="HandleEdit(data.item)"
                 >
                   <i class="jam jam-write-f text-white"></i>
                 </b-button>
@@ -101,7 +102,7 @@
               <b-col cols="auto">
                 <b-button
                   v-b-tooltip.hover
-                  variant="primary"
+                  variant="danger"
                   title="Hapus"
                   class="btn-mt circle danger"
                   @click="handleDelete(data.item)"
@@ -133,6 +134,7 @@
     <sparepartModal
       :actionType="action"
       :categories="categories"
+      :sparepart="selectedItem"
       @cancel="handleCancel('sparepart-form-modal')"
       @close="handleCancel('sparepart-form-modal')"
       @saved="HandleData()"
@@ -249,6 +251,21 @@ export default {
 
     handleAdd() {
       this.action = "I";
+      this.selectedItem = {
+        name: "",
+        price: "",
+        stock: "",
+        sparepart_category_id: "",
+      };
+      this.$nextTick(() => {
+        this.$bvModal.show("sparepart-form-modal");
+      });
+    },
+
+    HandleEdit(item) {
+      this.action = "U";
+      this.selectedItem = { ...item };
+      console.log("🚀 ~ HandleEdit ~ selectedItem:", this.selectedItem);
       this.$nextTick(() => {
         this.$bvModal.show("sparepart-form-modal");
       });
@@ -266,7 +283,6 @@ export default {
     },
 
     handleDelete(item) {
-      console.log("🚀 ~ handleDelete ~ item:", item);
       this.selectedItem = item;
       this.$nextTick(() => {
         this.$bvModal.show("delete-modal");

@@ -4,24 +4,29 @@
     <span class="page-title">Sparepart</span>
     <section>
       <b-container fluid>
+        <b-row style="margin-bottom: 25px">
+          <b-col cols="auto" class="title-detail">
+            <i class="jam jam-home-f"></i> Details</b-col
+          >
+        </b-row>
         <b-row>
           <b-col cols="6">
             <div class="d-flex">
-              <div class="title mr-3">ID:</div>
+              <div class="title mr-3">ID</div>
               <div class="value">{{ item.id }}</div>
             </div>
             <div class="d-flex">
-              <div class="title mr-3">Name:</div>
+              <div class="title mr-3">Name</div>
               <div class="value">{{ item.name }}</div>
             </div>
           </b-col>
           <b-col cols="6">
             <div class="d-flex">
-              <div class="title mr-3">Stock:</div>
+              <div class="title mr-3">Stock</div>
               <div class="value">{{ item.stock }}</div>
             </div>
             <div class="d-flex">
-              <div class="title mr-3">Price:</div>
+              <div class="title mr-3">Price</div>
               <div class="value">{{ item.price }}</div>
             </div>
           </b-col>
@@ -29,7 +34,7 @@
         <b-row>
           <b-col cols="12">
             <div class="d-flex">
-              <div class="title mr-3">Category:</div>
+              <div class="title mr-3">Category</div>
               <div class="value">{{ item.category.name }}</div>
             </div>
           </b-col>
@@ -39,9 +44,7 @@
     <b-container fluid>
       <b-row>
         <b-col cols="auto">
-          <button class="btn-mt btn-secondary btn" @click="back()">
-            Kembali
-          </button>
+          <button class="btn-back" @click="back()">Kembali</button>
         </b-col>
       </b-row>
     </b-container>
@@ -99,14 +102,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.title {
-  font-size: 15px;
-  font-weight: 600;
-  width: 80px;
-}
-.value {
-  font-size: 13px;
-  margin-top: 2px;
-}
-</style>
+<style lang="scss"></style>
