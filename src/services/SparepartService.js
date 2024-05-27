@@ -9,6 +9,11 @@ export default {
     };
     return AXIOS.get("/v1/sparepart", config);
   },
+  GetByID(id) {
+    let config = {};
+    config = header.authHeader();
+    return AXIOS.get("/v1/sparepart/" + id, config);
+  },
   Add(reqBody) {
     let config = {};
     config = header.authHeader();

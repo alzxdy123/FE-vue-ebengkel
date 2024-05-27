@@ -62,7 +62,7 @@
             </div>
           </div>
         </template>
-        <template v-slot:cell(detail)="">
+        <template v-slot:cell(detail)="data">
           <b-container fluid>
             <b-row align-h="center">
               <b-col cols="auto">
@@ -71,6 +71,7 @@
                   variant="primary"
                   title="Detail"
                   class="btn-mt circle secondary"
+                  @click="handleDetail(data.item)"
                 >
                   <i class="jam jam-files-f"></i>
                 </b-button>
@@ -144,6 +145,7 @@ import SparepartService from "@/services/SparepartService";
 import breadcrumbs from "../common/Breadcrumbs.vue";
 import SparepartModal from "../modals/SparepartModal.vue";
 import DeleteModal from "../modals/DeleteModal.vue";
+import Functions from "../../tools/Functions";
 
 export default {
   components: {
@@ -256,6 +258,11 @@ export default {
       this.$nextTick(() => {
         this.$bvModal.hide(modalId);
       });
+    },
+
+    handleDetail(item) {
+      Functions.SaveSessionCustom("sparepartID", item.id);
+      Functions.ToPage("/sparepart-detail");
     },
 
     handleDelete(item) {
