@@ -8,7 +8,10 @@
         </div>
         <div class="header-navigation">
           <div class="menu-header">Language</div>
-          <div class="menu-header" :class="{ active: $route.path === '/' }">
+          <div
+            class="menu-header"
+            :class="{ active: $route.path === '/dashboard' }"
+          >
             Dashboard
           </div>
           <div class="menu-header">Log out</div>
