@@ -4,15 +4,65 @@
   position: relative;
   overflow: hidden;
   height: 100vh;
-  overflow-y: scroll;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url("@/assets/images/bg_login2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .logo {
+    position: absolute;
+    top: 40px;
+    left: 100px;
+    display: flex;
+
+    .author {
+      margin-right: 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-family: "InterSemiBold";
+      position: relative;
+      color: white;
+      letter-spacing: 2px;
+      border: 1px solid;
+      height: 24px;
+      padding: 4px;
+      border-radius: 120px;
+      padding-left: 14px;
+      padding-right: 14px;
+      padding-top: 4px;
+      top: 5px;
+      left: 10px;
+      background-color: #053364;
+      border-color: #053364;
+    }
+
+    span {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-family: "InterSemiBold";
+      position: relative;
+      color: #053364;
+      letter-spacing: 2px;
+      border: 1px solid;
+      height: 24px;
+      padding: 4px;
+      border-radius: 120px;
+      padding-left: 14px;
+      padding-right: 14px;
+      padding-top: 4px;
+      top: 5px;
+      left: 10px;
+      background-color: white;
+      border-color: white;
+    }
+  }
 
   .box {
-    border: 1px solid;
     padding: 20px 40px 20px 40px;
-
+    background-color: white;
+    border-radius: 13px;
     .header {
       text-align: center;
       font-size: 25px;
@@ -39,8 +89,9 @@
           align-items: center;
 
           span {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 30px;
+            font-weight: bolder;
+            text-decoration: line-through;
           }
 
           i {
@@ -68,6 +119,8 @@
 
         .btn-login {
           width: 100%;
+          padding-top: 5px;
+          padding-bottom: 5px;
           border-radius: 15px;
           -webkit-border-radius: 15px;
           -moz-border-radius: 15px;
@@ -76,7 +129,7 @@
 
           span {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 500;
           }
         }
       }

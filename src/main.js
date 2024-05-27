@@ -24,6 +24,7 @@ Vue.use(Notifications);
 Vue.use(VeeValidate, {
   inject: true,
   fieldsBagName: "veeFields",
+  // errorBagName: "veeErrors",
 });
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);

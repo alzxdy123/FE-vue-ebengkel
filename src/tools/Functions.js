@@ -81,4 +81,31 @@ export default {
       return true;
     }
   },
+
+  ButtonLoginVariant() {
+    $(document).ready(function () {
+      function checkInputs() {
+        var allFilled = true;
+        $("input").each(function () {
+          if ($(this).val() === "") {
+            allFilled = false;
+            return false;
+          }
+        });
+
+        if (allFilled) {
+          $(".btn-login").css("background-color", "#053364");
+          $(".btn-login").prop("disabled", false);
+        } else {
+          $(".btn-login").css("background-color", "");
+          $(".btn-login").prop("disabled", true);
+        }
+      }
+
+      checkInputs();
+      $("input").on("input", function () {
+        checkInputs();
+      });
+    });
+  },
 };
