@@ -81,6 +81,27 @@
   font-weight: 800;
 }
 
+.title-detail {
+  font-weight: 600;
+  font-size: 16px;
+
+  i {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+}
+
+.title {
+  width: 150px;
+  font-size: 15px;
+  color: grey;
+  text-align: left;
+}
+
+.value {
+  font-size: 15px;
+}
+
 .form-group .show-password i {
   position: absolute;
   right: 12px;

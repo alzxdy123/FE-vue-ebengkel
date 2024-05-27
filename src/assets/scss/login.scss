@@ -60,7 +60,7 @@
   }
 
   .box {
-    padding: 20px 40px 20px 40px;
+    padding: 60px 60px 40px 60px;
     background-color: white;
     border-radius: 13px;
     .header {
@@ -89,9 +89,16 @@
           align-items: center;
 
           span {
+            background-color: rgb(230, 159, 159);
+            padding: 0 10px 0 10px;
             font-size: 30px;
             font-weight: bolder;
             text-decoration: line-through;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            -ms-border-radius: 10px;
+            -o-border-radius: 10px;
           }
 
           i {
