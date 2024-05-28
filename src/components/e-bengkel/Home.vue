@@ -87,22 +87,40 @@
 </template>
 
 <script>
+import AuthService from "../../services/AuthService";
 import Functions from "../../tools/Functions";
 
 export default {
   data() {
     return {
       router: this.$router,
+      username: "",
     };
   },
   methods: {
     NavHeader() {
       Functions.NavHeader();
     },
+
+    HandleLogout() {
+      AuthService.logout(this.username).then((res) => {
+        this.$notify({
+          group: "message",
+          title: "Success",
+          text: res.data.message,
+          type: "success",
+          duration: 5000,
+        });
+        localStorage.clear();
+
+        Functions.ToPage("login");
+      });
+    },
   },
 
   mounted() {
     this.NavHeader();
+    this.username = Functions.ReadSessionCustom("username");
   },
 };
 </script>

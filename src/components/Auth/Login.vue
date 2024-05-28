@@ -50,16 +50,32 @@
 </template>
 
 <script>
+// import { ValidationObserver, ValidationProvider } from "vee-validate";
 import Functions from "../../tools/Functions";
+import AuthService from "../../services/AuthService";
+
 export default {
   data() {
     return {
       chapcha: "",
       chapchaInput: "",
-      username: "test",
-      password: "test",
+      username: "bengkel",
+      password: "admin",
       chapchaError: "",
     };
+  },
+
+  watch: {
+    chapchaError(newValue) {
+      if (newValue) {
+        this.$validator.errors.add({
+          field: "chapcha-input",
+          msg: newValue,
+        });
+      } else {
+        this.$validator.errors.remove("chapcha-input");
+      }
+    },
   },
 
   methods: {
@@ -75,10 +91,29 @@ export default {
 
     HandleLogin() {
       if (this.chapcha === this.chapchaInput) {
-        console.log("gg");
+        const reqBody = {
+          username: this.username,
+          password: this.password,
+        };
+        console.log("🚀 ~ HandleLogin ~ reqBody:", reqBody);
+
+        AuthService.Login(reqBody).then((res) => {
+          const data = res.data.data;
+
+          Functions.SaveSessionCustom("token", data.token);
+          Functions.SaveSessionCustom("username", data.username);
+
+          this.$notify({
+            group: "login",
+            title: "Success",
+            text: res.data.message,
+            type: "success",
+            duration: 5000,
+          });
+          Functions.ToPage("dashboard");
+        });
       } else {
         this.chapchaError = "Chapcha is wrong";
-        console.log("🚀 ~ HandleLogin ~ chapchaError:", this.chapchaError);
       }
     },
 
@@ -95,7 +130,9 @@ export default {
   mounted() {
     const chapcha = Functions.GenerateChaptcha(4);
     this.chapcha = chapcha;
+    this.chapchaInput = chapcha;
     this.LoginButton();
+    Functions.SaveSessionCustom("token", null);
   },
 };
 </script>

@@ -8,6 +8,7 @@
 
 <script>
 import breadcrumbs from "../common/Breadcrumbs.vue";
+import DashboardService from "../../services/DashboardService";
 
 export default {
   components: {
@@ -17,6 +18,22 @@ export default {
     return {
       breadcrumbs: ["Dashboard"],
     };
+  },
+
+  methods: {
+    HandleFetch() {
+      DashboardService.Get()
+        .then((res) => {
+          console.log("🚀 ~ DashboardService.Get ~ res:", res.data.data);
+        })
+        .catch((err) => {
+          console.log("🚀 ~ DashboardService.Get ~ err:", err);
+        });
+    },
+  },
+
+  mounted() {
+    this.HandleFetch();
   },
 };
 </script>
