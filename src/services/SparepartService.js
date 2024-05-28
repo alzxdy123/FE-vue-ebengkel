@@ -25,6 +25,12 @@ export default {
     return AXIOS.delete("/v1/sparepart/" + id, config);
   },
 
+  Update(reqBody) {
+    let config = {};
+    config = header.authHeader();
+    return AXIOS.put("/v1/sparepart/" + reqBody.id, reqBody, config);
+  },
+
   //Spacepart Category
 
   GetAllCategory() {

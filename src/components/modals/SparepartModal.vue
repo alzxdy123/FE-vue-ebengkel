@@ -216,24 +216,39 @@ export default {
           newData: JSON.stringify(newData),
         };
 
-        console.log(reqBody);
-
-        SparepartService.Add(reqBody)
-          .then((res) => {
-            console.log("🚀 ~ SparepartService.GetAllCategory ~ res:", res);
-            this.$notify({
-              group: "message",
-              title: "Success",
-              text: res.data.message,
-              type: "success",
-              duration: 5000,
+        if (isUpdate) {
+          SparepartService.Update(reqBody)
+            .then((res) => {
+              this.$notify({
+                group: "message",
+                title: "Success",
+                text: res.data.message,
+                type: "success",
+                duration: 5000,
+              });
+              this.$emit("close");
+              this.$emit("saved");
+            })
+            .catch((err) => {
+              console.log("🚀 ~ SparepartService.Update ~ err:", err);
             });
-            this.$emit("close");
-            this.$emit("saved");
-          })
-          .catch((err) => {
-            console.log("🚀 ~ SparepartService.GetAllCategory ~ err:", err);
-          });
+        } else {
+          SparepartService.Add(reqBody)
+            .then((res) => {
+              this.$notify({
+                group: "message",
+                title: "Success",
+                text: res.data.message,
+                type: "success",
+                duration: 5000,
+              });
+              this.$emit("close");
+              this.$emit("saved");
+            })
+            .catch((err) => {
+              console.log("🚀 ~ SparepartService.GetAllCategory ~ err:", err);
+            });
+        }
       });
     },
   },

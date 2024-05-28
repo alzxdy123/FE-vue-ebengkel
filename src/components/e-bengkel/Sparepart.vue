@@ -265,7 +265,6 @@ export default {
     HandleEdit(item) {
       this.action = "U";
       this.selectedItem = { ...item };
-      console.log("🚀 ~ HandleEdit ~ selectedItem:", this.selectedItem);
       this.$nextTick(() => {
         this.$bvModal.show("sparepart-form-modal");
       });
@@ -291,7 +290,6 @@ export default {
 
     handleConfirmDelete() {
       const id = this.selectedItem.id;
-      console.log("🚀 ~ handleConfirmDelete ~ id:", id);
 
       this.tableProps.isBusy = true;
       SparepartService.Delete(id)

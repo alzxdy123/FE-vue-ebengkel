@@ -3,7 +3,16 @@
     <breadcrumbs :breadcrumbs="breadcrumbs" />
     <span class="page-title">Sparepart</span>
     <section>
-      <b-container fluid>
+      <b-container v-if="isBusy">
+        <b-row align-h="center">
+          <b-col cols="auto">
+            <div class="loading-color">
+              <b-spinner class="align-middle mt-2"></b-spinner>
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+      <b-container fluid v-else>
         <b-row style="margin-bottom: 25px">
           <b-col cols="auto" class="title-detail">
             <i class="jam jam-home-f"></i> Details</b-col
@@ -73,14 +82,16 @@ export default {
           name: "",
         },
       },
+      isBusy: false,
     };
   },
 
   methods: {
     fetchData() {
+      this.isBusy = true;
       SparepartService.GetByID(this.sparepartID)
         .then((res) => {
-          console.log("🚀 ~ .then ~ res:", res);
+          this.isBusy = false;
           const data = res.data.data;
           this.item = data;
         })
