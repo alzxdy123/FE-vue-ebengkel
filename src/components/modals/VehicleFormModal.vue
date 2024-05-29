@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="sparepart-form-modal" centered hide-header-close size="md">
+  <b-modal id="form-modal" centered hide-header-close size="md">
     <template #modal-header>
       <b-container fluid class="py-2">
         <b-row align-h="center">
@@ -13,72 +13,91 @@
       <b-form>
         <b-row>
           <b-col cols="12">
-            <b-form-group label="name">
+            <b-form-group label="Police Number">
               <b-form-input
-                v-model="formData.name"
-                name="name"
-                v-validate="formRules.name"
-                data-vv-as="name"
-                :state="validateState('name')"
+                v-model="formData.police_number"
+                name="police-number"
+                v-validate="formRules.police_number"
+                data-vv-as="police-number"
+                :state="validateState('police-number')"
               ></b-form-input>
-              <b-form-invalid-feedback id="name-invalid-feedback">{{
-                errors.first("name")
-              }}</b-form-invalid-feedback>
-            </b-form-group>
-          </b-col>
-          <b-col cols="6">
-            <b-form-group label="stock">
-              <b-form-input
-                v-model="formData.stock"
-                name="stock"
-                type="number"
-                v-validate="formRules.stock"
-                data-vv-as="stock"
-                :state="validateState('stock')"
-              ></b-form-input>
-              <b-form-invalid-feedback id="stock-invalid-feedback">{{
-                errors.first("stock")
-              }}</b-form-invalid-feedback>
-            </b-form-group>
-          </b-col>
-          <b-col cols="6">
-            <b-form-group label="price">
-              <b-form-input
-                v-model="formData.price"
-                name="price"
-                type="number"
-                v-validate="formRules.price"
-                data-vv-as="price"
-                :state="validateState('price')"
-              ></b-form-input>
-              <b-form-invalid-feedback id="price-invalid-feedback">{{
-                errors.first("price")
+              <b-form-invalid-feedback id="police-number-invalid-feedback">{{
+                errors.first("police-number")
               }}</b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row>
           <b-col cols="12">
-            <b-form-group label="Category">
+            <b-form-group label="Type">
+              <b-form-input
+                v-model="formData.type"
+                name="type"
+                v-validate="formRules.type"
+                data-vv-as="type"
+                :state="validateState('type')"
+              ></b-form-input>
+              <b-form-invalid-feedback id="type-invalid-feedback">{{
+                errors.first("type")
+              }}</b-form-invalid-feedback>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12">
+            <b-form-group label="Merk">
+              <b-form-input
+                v-model="formData.merk"
+                name="merk"
+                v-validate="formRules.merk"
+                data-vv-as="merk"
+                :state="validateState('merk')"
+              ></b-form-input>
+              <b-form-invalid-feedback id="merk-invalid-feedback">{{
+                errors.first("merk")
+              }}</b-form-invalid-feedback>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12">
+            <b-form-group label="Years">
+              <b-form-input
+                v-model="formData.years"
+                name="years"
+                type="number"
+                v-validate="formRules.years"
+                data-vv-as="years"
+                :state="validateState('years')"
+              ></b-form-input>
+              <b-form-invalid-feedback id="years-invalid-feedback">{{
+                errors.first("years")
+              }}</b-form-invalid-feedback>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="12">
+            <b-form-group label="Author">
               <b-form-select
                 style="font-size: 13px"
-                v-model="formData.sparepart_category_id"
-                name="category_id"
-                v-validate="formRules.category_id"
-                data-vv-as="Category"
-                :state="validateState('category_id')"
+                v-model="formData.user_id"
+                name="user_id"
+                v-validate="formRules.user_id"
+                data-vv-as="user_id"
+                :state="validateState('user_id')"
               >
                 <option
-                  v-for="category in categories"
-                  :key="category.id"
-                  :value="category.id"
+                  v-for="author in authors"
+                  :key="author.id"
+                  :value="author.id"
                   style="font-size: 13px; font-weight: 600"
                 >
-                  {{ category.name }}
+                  {{ author.username }}
                 </option>
               </b-form-select>
-              <b-form-invalid-feedback id="category_id-invalid-feedback">
-                {{ errors.first("category_id") }}
+              <b-form-invalid-feedback id="user_id-invalid-feedback">
+                {{ errors.first("user_id") }}
               </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
@@ -112,12 +131,12 @@
 </template>
 
 <script>
-import SparepartService from "../../services/SparepartService";
+import VehicleService from "../../services/VehicleService";
 
 export default {
-  name: "SparepartFormModal",
+  name: "FormModal",
   props: {
-    sparepart: {
+    vehicle: {
       type: Object,
       required: false,
     },
@@ -126,17 +145,22 @@ export default {
       required: true,
       default: () => "I",
     },
-    categories: {
+    authors: {
+      required: true,
+    },
+    title: {
+      type: String,
       required: true,
     },
   },
   watch: {
-    sparepart: function (newVal, oldVal) {
+    vehicle: function (newVal, oldVal) {
       this.formData = {
-        name: newVal.name,
-        stock: newVal.stock,
-        price: newVal.price,
-        sparepart_category_id: newVal.sparepart_category_id,
+        police_number: newVal.police_number,
+        type: newVal.type,
+        merk: newVal.merk,
+        years: newVal.years,
+        user_id: newVal.user_id,
       };
       this.oldData = { ...newVal };
     },
@@ -144,28 +168,27 @@ export default {
 
   computed: {
     modalTitle: function () {
-      return (this.actionType === "I" ? "add" : "edit") + " " + "Sparepart";
+      return (this.actionType === "I" ? "add" : "edit") + " " + this.title;
     },
   },
   data() {
     return {
-      oldData: { ...this.sparepart },
-      formData: { ...this.sparepart },
+      oldData: { ...this.vehicle },
+      formData: { ...this.vehicle },
       formRules: {
-        name: {
+        police_number: {
           required: true,
         },
-        stock: {
+        type: {
           required: true,
-          numeric: true,
-          min_value: 0,
         },
-        price: {
+        merk: {
           required: true,
-          numeric: true,
-          min_value: 0,
         },
-        category_id: {
+        years: {
+          required: true,
+        },
+        user_id: {
           required: true,
         },
       },
@@ -196,28 +219,30 @@ export default {
 
         const oldData = isUpdate
           ? {
-              name: this.oldData.name,
-              stock: this.oldData.stock,
-              price: this.oldData.price,
-              sparepart_category_id: this.oldData.category_id,
+              police_number: this.oldData.police_number,
+              type: this.oldData.type,
+              merk: this.oldData.merk,
+              years: this.oldData.years,
+              user_id: this.oldData.user_id,
             }
           : undefined;
 
         const newData = {
-          name: this.formData.name,
-          stock: this.formData.stock,
-          price: this.formData.price,
-          sparepart_category_id: this.formData.sparepart_category_id,
+          police_number: this.formData.police_number,
+          type: this.formData.type,
+          merk: this.formData.merk,
+          years: this.formData.years,
+          user_id: this.formData.user_id,
         };
 
         const reqBody = {
           id: isUpdate ? this.oldData.id : undefined,
           oldData: isUpdate ? JSON.stringify(oldData) : undefined,
-          newData: JSON.stringify(newData),
+          newData: newData,
         };
 
         if (isUpdate) {
-          SparepartService.Update(reqBody)
+          VehicleService.Update(reqBody)
             .then((res) => {
               this.$notify({
                 group: "message",
@@ -230,10 +255,16 @@ export default {
               this.$emit("saved");
             })
             .catch((err) => {
-              console.log("🚀 ~ SparepartService.Update ~ err:", err);
+              this.$notify({
+                group: "message",
+                title: "Error",
+                text: err.response.data.message,
+                type: "error",
+                duration: 5000,
+              });
             });
         } else {
-          SparepartService.Add(reqBody)
+          VehicleService.Add(reqBody)
             .then((res) => {
               this.$notify({
                 group: "message",
@@ -246,7 +277,13 @@ export default {
               this.$emit("saved");
             })
             .catch((err) => {
-              console.log("🚀 ~ SparepartService.GetAllCategory ~ err:", err);
+              this.$notify({
+                group: "message",
+                title: "Error",
+                text: err.response.data.message,
+                type: "error",
+                duration: 5000,
+              });
             });
         }
       });

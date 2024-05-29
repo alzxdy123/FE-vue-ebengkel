@@ -131,12 +131,13 @@
       @close="handleCancel('delete-modal')"
     />
 
-    <sparepartModal
+    <FormModal
       :actionType="action"
       :categories="categories"
       :sparepart="selectedItem"
-      @cancel="handleCancel('sparepart-form-modal')"
-      @close="handleCancel('sparepart-form-modal')"
+      title="Sparepart"
+      @cancel="handleCancel('form-modal')"
+      @close="handleCancel('form-modal')"
       @saved="HandleData()"
     />
   </div>
@@ -145,14 +146,14 @@
 <script>
 import SparepartService from "@/services/SparepartService";
 import breadcrumbs from "../common/Breadcrumbs.vue";
-import SparepartModal from "../modals/SparepartModal.vue";
+import FormModal from "../modals/FormModal.vue";
 import DeleteModal from "../modals/DeleteModal.vue";
 import Functions from "../../tools/Functions";
 
 export default {
   components: {
     breadcrumbs,
-    SparepartModal,
+    FormModal,
     DeleteModal,
   },
   data() {
@@ -244,7 +245,13 @@ export default {
           this.tableProps.errorMessage = "";
         })
         .catch((err) => {
-          console.log("🚀 ~ HandleData ~ err:", err);
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
           this.tableProps.errorMessage = err;
         });
     },
@@ -258,7 +265,7 @@ export default {
         sparepart_category_id: "",
       };
       this.$nextTick(() => {
-        this.$bvModal.show("sparepart-form-modal");
+        this.$bvModal.show("form-modal");
       });
     },
 
@@ -266,7 +273,7 @@ export default {
       this.action = "U";
       this.selectedItem = { ...item };
       this.$nextTick(() => {
-        this.$bvModal.show("sparepart-form-modal");
+        this.$bvModal.show("form-modal");
       });
     },
 
@@ -306,7 +313,13 @@ export default {
           this.HandleData();
         })
         .catch((err) => {
-          console.log("🚀 ~ SparepartService.Delete ~ err:", err);
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
         });
 
       this.$bvModal.hide("delete-modal");
@@ -318,7 +331,13 @@ export default {
           this.categories = res.data.data;
         })
         .catch((err) => {
-          console.log("🚀 ~ fetchSparepartCategory ~ err:", err);
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
         });
     },
   },

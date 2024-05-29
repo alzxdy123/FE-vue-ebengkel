@@ -9,7 +9,7 @@ import Dashboard from "./components/e-bengkel/Dashboard.vue";
 
 import Sparepart from "./components/e-bengkel/Sparepart.vue";
 import SparepartDetail from "./components/e-bengkel/SparepartDetail.vue";
-import SparepartModal from "./components/modals/SparepartModal.vue";
+import SparepartModal from "./components/modals/FormModal.vue";
 
 import Vehicle from "./components/e-bengkel/vehicle/Vehicle.vue";
 import VehicleDetail from "./components/e-bengkel/vehicle/VehicleDetail.vue";

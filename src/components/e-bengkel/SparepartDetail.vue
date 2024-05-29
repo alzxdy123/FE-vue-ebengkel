@@ -96,7 +96,13 @@ export default {
           this.item = data;
         })
         .catch((err) => {
-          console.log("🚀 ~ SparepartService.GetByID ~ err:", err);
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
         });
     },
 
