@@ -35,8 +35,6 @@ export default {
 
   mounted() {
     this.HandleFetch();
-    let token = Functions.ReadSessionCustom("token");
-    console.log(token);
   },
 };
 </script>

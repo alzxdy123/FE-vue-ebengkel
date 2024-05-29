@@ -101,4 +101,46 @@ export default {
       });
     });
   },
+
+  LoginResponsive() {
+    $(document).ready(() => {
+      function scaleElements() {
+        const windowWidth = $(window).width();
+        let scaleFactor = 1;
+
+        if (windowWidth > 1700) {
+          scaleFactor = 1.3;
+          $(".logo").css("left", "100px");
+        } else if (windowWidth < 500) {
+          scaleFactor = 0.8;
+          $(".logo").css("left", "0");
+        } else {
+          scaleFactor = 1;
+          $(".logo").css("left", "100px");
+        }
+
+        $(".box, .logo").css("transform", `scale(${scaleFactor})`);
+      }
+
+      scaleElements();
+      $(window).resize(() => {
+        scaleElements();
+      });
+    });
+  },
+
+  TablePerPage(tableProps) {
+    $(document).ready(() => {
+      function UpdatePerPageValue() {
+        let windowWidth = $(window).width();
+        let perPage = windowWidth > 1700 ? 10 : 5;
+        tableProps.perpage = perPage;
+      }
+
+      UpdatePerPageValue();
+      $(window).resize(() => {
+        UpdatePerPageValue();
+      });
+    });
+  },
 };

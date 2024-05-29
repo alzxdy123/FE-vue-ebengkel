@@ -103,7 +103,6 @@ router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token");
 
   if (authRequired && token == null) {
-    window.console.log("test");
     return next({
       path: "/login",
       query: {

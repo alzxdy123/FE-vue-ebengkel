@@ -336,6 +336,7 @@ export default {
   mounted() {
     this.HandleData();
     this.fetchSparepartCategory();
+    Functions.TablePerPage(this.tableProps);
   },
 };
 </script>

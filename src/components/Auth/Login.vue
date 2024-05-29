@@ -9,13 +9,34 @@
       <form class="body">
         <b-form-group>
           <label>Username</label>
-          <b-form-input v-model="username"></b-form-input>
-          <b-form-invalid-feedback></b-form-invalid-feedback>
+          <b-form-input
+            v-model="username"
+            id="username-input"
+            name="username-input"
+            v-validate="{ required: true }"
+            :state="validateState('username-input')"
+            aria-describedby="username-input-feedback"
+            data-vv-as="username"
+          ></b-form-input>
+          <b-form-invalid-feedback id="username-input-feedback">{{
+            errors.first("username-input")
+          }}</b-form-invalid-feedback>
         </b-form-group>
         <b-form-group>
           <label>Password</label>
-          <b-form-input type="password" v-model="password"></b-form-input>
-          <b-form-invalid-feedback></b-form-invalid-feedback>
+          <b-form-input
+            type="password"
+            v-model="password"
+            id="password-input"
+            name="password-input"
+            v-validate="{ required: true }"
+            :state="validateState('password-input')"
+            aria-describedby="password-input-feedback"
+            data-vv-as="password"
+          ></b-form-input>
+          <b-form-invalid-feedback id="password-input-feedback">{{
+            errors.first("password-input")
+          }}</b-form-invalid-feedback>
         </b-form-group>
         <div class="chapcha">
           <div class="chapcha-box">
@@ -62,6 +83,7 @@ export default {
       username: "bengkel",
       password: "admin",
       chapchaError: "",
+      errorMessage: "",
     };
   },
 
@@ -74,6 +96,22 @@ export default {
         });
       } else {
         this.$validator.errors.remove("chapcha-input");
+      }
+    },
+    errorMessage(newValue) {
+      const validator = this.$validator;
+
+      if (newValue) {
+        ["password-input", "username-input"].forEach((field) => {
+          validator.errors.add({
+            field: field,
+            msg: newValue,
+          });
+        });
+      } else {
+        ["password-input", "username-input"].forEach((field) => {
+          validator.errors.remove(field);
+        });
       }
     },
   },
@@ -97,21 +135,25 @@ export default {
         };
         console.log("🚀 ~ HandleLogin ~ reqBody:", reqBody);
 
-        AuthService.Login(reqBody).then((res) => {
-          const data = res.data.data;
+        AuthService.Login(reqBody)
+          .then((res) => {
+            const data = res.data.data;
 
-          Functions.SaveSessionCustom("token", data.token);
-          Functions.SaveSessionCustom("username", data.username);
+            Functions.SaveSessionCustom("token", data.token);
+            Functions.SaveSessionCustom("username", data.username);
 
-          this.$notify({
-            group: "login",
-            title: "Success",
-            text: res.data.message,
-            type: "success",
-            duration: 5000,
+            this.$notify({
+              group: "login",
+              title: "Success",
+              text: res.data.message,
+              type: "success",
+              duration: 5000,
+            });
+            Functions.ToPage("dashboard");
+          })
+          .catch((err) => {
+            this.errorMessage = err.response.data.message;
           });
-          Functions.ToPage("dashboard");
-        });
       } else {
         this.chapchaError = "Chapcha is wrong";
       }
@@ -132,6 +174,7 @@ export default {
     this.chapcha = chapcha;
     this.chapchaInput = chapcha;
     this.LoginButton();
+    Functions.LoginResponsive();
   },
 };
 </script>
