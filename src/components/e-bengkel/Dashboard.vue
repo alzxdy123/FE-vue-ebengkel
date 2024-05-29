@@ -9,6 +9,7 @@
 <script>
 import breadcrumbs from "../common/Breadcrumbs.vue";
 import DashboardService from "../../services/DashboardService";
+import Functions from "../../tools/Functions";
 
 export default {
   components: {
@@ -34,6 +35,8 @@ export default {
 
   mounted() {
     this.HandleFetch();
+    let token = Functions.ReadSessionCustom("token");
+    console.log(token);
   },
 };
 </script>

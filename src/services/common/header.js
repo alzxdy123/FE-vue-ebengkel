@@ -1,4 +1,4 @@
-import Functions from "@/tools/Functions";
+import Functions from "../../tools/Functions";
 
 export default {
   authHeader() {

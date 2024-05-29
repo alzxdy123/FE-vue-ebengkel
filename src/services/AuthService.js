@@ -7,9 +7,9 @@ export default {
     config = header.authHeader();
     return AXIOS.post("/v1/auth/login", reqBody, config);
   },
-  Logout(usernanme) {
+  Logout(username) {
     let config = {};
     config = header.authHeader();
-    return AXIOS.post("/v1/auth/logout/" + usernanme, config);
+    return AXIOS.get("/v1/auth/logout/" + username, config);
   },
 };

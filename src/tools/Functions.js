@@ -47,21 +47,14 @@ export default {
     let encrypt = Crypto.encryption(ToJson);
     return localStorage.setItem(key, encrypt);
   },
-
   ReadSessionCustom(key) {
     let read = localStorage.getItem(key);
+    // // window.console.log(read);
     if (read == "null") {
       return null;
     } else {
       let dencrypt = Crypto.dencrytion(read);
       if (dencrypt == "" || dencrypt == undefined) {
-        Vue.notify({
-          group: "message",
-          title: "Error ",
-          text: key,
-          type: "error",
-          duration: 5000,
-        });
         this.ToPage("/");
         // window.console.log(key);
         return null;

@@ -132,7 +132,6 @@ export default {
     this.chapcha = chapcha;
     this.chapchaInput = chapcha;
     this.LoginButton();
-    Functions.SaveSessionCustom("token", null);
   },
 };
 </script>

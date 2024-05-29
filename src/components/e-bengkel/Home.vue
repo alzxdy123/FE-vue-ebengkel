@@ -14,7 +14,7 @@
           >
             Dashboard
           </div>
-          <div class="menu-header">Log out</div>
+          <div class="menu-header" @click="HandleLogout()">Log out</div>
           <div class="menu-header">User</div>
         </div>
       </div>
@@ -103,18 +103,22 @@ export default {
     },
 
     HandleLogout() {
-      AuthService.logout(this.username).then((res) => {
-        this.$notify({
-          group: "message",
-          title: "Success",
-          text: res.data.message,
-          type: "success",
-          duration: 5000,
-        });
-        localStorage.clear();
+      AuthService.Logout(this.username)
+        .then((res) => {
+          this.$notify({
+            group: "message",
+            title: "Success",
+            text: res.data.message,
+            type: "success",
+            duration: 5000,
+          });
+          localStorage.clear();
 
-        Functions.ToPage("login");
-      });
+          Functions.ToPage("login");
+        })
+        .catch((err) => {
+          console.log("🚀 ~ AuthService.Logout ~ err:", err);
+        });
     },
   },
 
