@@ -89,16 +89,13 @@
       <b-container fluid>
         <b-row align-h="end">
           <b-col cols="auto">
-            <button
-              class="btn btn-mt btn-secondary outlined"
-              @click="handleCancel()"
-            >
+            <button class="btn-modal-cancel" @click="handleCancel()">
               cancel
             </button>
           </b-col>
           <b-col cols="auto">
             <button
-              class="btn btn-mt"
+              class="btn-modal-oke"
               @click="handleSave()"
               style="background-color: #053364; color: white"
             >

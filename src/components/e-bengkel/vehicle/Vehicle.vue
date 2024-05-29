@@ -231,8 +231,14 @@ export default {
           this.tableProps.errorMessage = "";
         })
         .catch((err) => {
-          console.log("🚀 ~ HandleData ~ err:", err);
-          this.tableProps.errorMessage = err;
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
+          this.tableProps.errorMessage = err.response.data.message;
         });
     },
 
@@ -242,17 +248,23 @@ export default {
           this.authors = res.data.data;
         })
         .catch((err) => {
-          console.log("🚀 ~ VehicleService.Author ~ err:", err);
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
         });
     },
 
     handleAdd() {
       this.action = "I";
       this.selectedItem = {
-        police_number: "test add",
-        type: "test add",
-        merk: "test add",
-        years: "123",
+        police_number: "",
+        type: "",
+        merk: "",
+        years: "",
         user_id: 3,
       };
       this.$nextTick(() => {
@@ -299,7 +311,13 @@ export default {
           this.HandleData();
         })
         .catch((err) => {
-          console.log("🚀 ~ SparepartService.Delete ~ err:", err);
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
         });
 
       this.$bvModal.hide("delete-modal");

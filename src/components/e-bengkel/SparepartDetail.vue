@@ -7,7 +7,11 @@
         <b-row align-h="center">
           <b-col cols="auto">
             <div class="loading-color">
-              <b-spinner class="align-middle mt-2"></b-spinner>
+              <b-spinner
+                class="align-middle mt-2"
+                v-if="!errorMessage"
+              ></b-spinner>
+              <strong>{{ errorMessage }}</strong>
             </div>
           </b-col>
         </b-row>
@@ -83,6 +87,7 @@ export default {
         },
       },
       isBusy: false,
+      errorMessage: "",
     };
   },
 
@@ -96,6 +101,7 @@ export default {
           this.item = data;
         })
         .catch((err) => {
+          this.errorMessage = err.response.data.message;
           this.$notify({
             group: "message",
             title: "Error",

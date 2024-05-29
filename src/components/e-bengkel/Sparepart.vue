@@ -252,7 +252,7 @@ export default {
             type: "error",
             duration: 5000,
           });
-          this.tableProps.errorMessage = err;
+          this.tableProps.errorMessage = err.response.data.message;
         });
     },
 

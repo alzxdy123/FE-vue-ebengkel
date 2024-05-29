@@ -62,7 +62,8 @@
         </div>
         <div class="footer">
           <b-button type="button" class="btn-login" @click="HandleLogin()">
-            <span>Log in</span>
+            <b-spinner v-if="isBusy" class="align-items-center"></b-spinner>
+            <span v-else>Log in</span>
           </b-button>
         </div>
       </form>
@@ -80,10 +81,11 @@ export default {
     return {
       chapcha: "",
       chapchaInput: "",
-      username: "bengkel",
-      password: "admin",
+      username: "",
+      password: "",
       chapchaError: "",
       errorMessage: "",
+      isBusy: false,
     };
   },
 
@@ -128,6 +130,7 @@ export default {
     },
 
     HandleLogin() {
+      this.isBusy = true;
       if (this.chapcha === this.chapchaInput) {
         const reqBody = {
           username: this.username,
@@ -137,6 +140,7 @@ export default {
 
         AuthService.Login(reqBody)
           .then((res) => {
+            this.isBusy = false;
             const data = res.data.data;
 
             Functions.SaveSessionCustom("token", data.token);
@@ -152,10 +156,19 @@ export default {
             Functions.ToPage("dashboard");
           })
           .catch((err) => {
+            this.isBusy = false;
+            this.$notify({
+              group: "login",
+              title: "Error",
+              text: err.response.data.message,
+              type: "error",
+              duration: 5000,
+            });
             this.errorMessage = err.response.data.message;
           });
       } else {
         this.chapchaError = "Chapcha is wrong";
+        this.isBusy = false;
       }
     },
 
@@ -172,7 +185,6 @@ export default {
   mounted() {
     const chapcha = Functions.GenerateChaptcha(4);
     this.chapcha = chapcha;
-    this.chapchaInput = chapcha;
     this.LoginButton();
     Functions.LoginResponsive();
   },

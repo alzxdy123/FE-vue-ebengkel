@@ -25,7 +25,7 @@
         <b-row align-h="center">
           <b-col cols="auto">
             <button
-              class="btn-mt btn btn-secondary outlined"
+              class="btn-delete-cancel"
               @click="handleCancel()"
               :disabled="loading"
             >
@@ -34,7 +34,7 @@
           </b-col>
           <b-col cols="auto">
             <button
-              class="btn-mt btn btn-danger"
+              class="btn-modal-cancel"
               @click="handleOk()"
               :disabled="loading"
             >
