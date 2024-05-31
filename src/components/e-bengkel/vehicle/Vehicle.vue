@@ -96,6 +96,15 @@
           </b-container>
         </template>
       </b-table>
+      <div class="footer-table">
+        <div class="pagination">
+          <b-pagination
+            v-model="tableProps.currentPage"
+            :total-rows="tableProps.items.length"
+            :per-page="tableProps.perpage"
+          ></b-pagination>
+        </div>
+      </div>
     </div>
 
     <DeleteModal

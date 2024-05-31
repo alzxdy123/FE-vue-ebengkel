@@ -8,12 +8,14 @@
         </div>
         <div class="header-navigation">
           <div class="menu-header">Language</div>
-          <div
+          <router-link
             class="menu-header"
+            style="text-decoration: none !important"
             :class="{ active: $route.path === '/dashboard' }"
+            to="/dashboard"
           >
             Dashboard
-          </div>
+          </router-link>
           <div class="menu-header" @click="HandleLogout()">Log out</div>
           <div class="menu-header">User</div>
         </div>
@@ -106,7 +108,7 @@ export default {
       AuthService.Logout(this.username)
         .then((res) => {
           this.$notify({
-            group: "message",
+            group: "login",
             title: "Success",
             text: res.data.message,
             type: "success",
@@ -117,7 +119,13 @@ export default {
           Functions.ToPage("login");
         })
         .catch((err) => {
-          console.log("🚀 ~ AuthService.Logout ~ err:", err);
+          this.$notify({
+            group: "login",
+            title: "Success",
+            text: err.response.data.message,
+            type: "success",
+            duration: 5000,
+          });
         });
     },
   },

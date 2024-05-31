@@ -81,8 +81,8 @@ export default {
     return {
       chapcha: "",
       chapchaInput: "",
-      username: "",
-      password: "",
+      username: "bengkel",
+      password: "admin",
       chapchaError: "",
       errorMessage: "",
       isBusy: false,
@@ -185,6 +185,7 @@ export default {
   mounted() {
     const chapcha = Functions.GenerateChaptcha(4);
     this.chapcha = chapcha;
+    this.chapchaInput = chapcha;
     this.LoginButton();
     Functions.LoginResponsive();
   },
