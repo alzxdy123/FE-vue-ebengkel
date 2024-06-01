@@ -10,10 +10,10 @@
       </b-container>
     </template>
     <b-container fluid>
-      <b-form>
+      <b-form @submit.prevent="handleSave()">
         <b-row>
           <b-col cols="12">
-            <b-form-group label="name">
+            <b-form-group label="Name">
               <b-form-input
                 v-model="formData.name"
                 name="name"
@@ -27,7 +27,7 @@
             </b-form-group>
           </b-col>
           <b-col cols="6">
-            <b-form-group label="stock">
+            <b-form-group label="Stock">
               <b-form-input
                 v-model="formData.stock"
                 name="stock"
@@ -42,7 +42,7 @@
             </b-form-group>
           </b-col>
           <b-col cols="6">
-            <b-form-group label="price">
+            <b-form-group label="Price">
               <b-form-input
                 v-model="formData.price"
                 name="price"
@@ -96,6 +96,7 @@
           <b-col cols="auto">
             <button
               class="btn-modal-oke"
+              type="submit"
               @click="handleSave()"
               style="background-color: #053364; color: white"
             >
@@ -145,7 +146,7 @@ export default {
 
   computed: {
     modalTitle: function () {
-      return (this.actionType === "I" ? "add" : "edit") + " " + this.title;
+      return (this.actionType === "I" ? "Add" : "Edit") + " " + this.title;
     },
   },
   data() {
@@ -187,7 +188,7 @@ export default {
       this.$emit("cancel");
     },
 
-    handleSave: function () {
+    handleSave() {
       this.$validator.validateAll().then((result) => {
         if (!result) {
           return;

@@ -10,7 +10,7 @@
       </b-container>
     </template>
     <b-container fluid>
-      <b-form>
+      <b-form @submit.prevent="handleSave()">
         <b-row>
           <b-col cols="12">
             <b-form-group label="Police Number">
@@ -159,7 +159,7 @@ export default {
 
   computed: {
     modalTitle: function () {
-      return (this.actionType === "I" ? "add" : "edit") + " " + this.title;
+      return (this.actionType === "I" ? "Add" : "Edit") + " " + this.title;
     },
   },
   data() {

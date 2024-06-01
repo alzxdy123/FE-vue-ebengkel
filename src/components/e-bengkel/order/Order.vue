@@ -132,11 +132,6 @@ export default {
             label: "User",
           },
           {
-            key: "vehicle.merk",
-            visible: true,
-            label: "Vehicle",
-          },
-          {
             key: "order_date",
             visible: true,
             label: "Date",

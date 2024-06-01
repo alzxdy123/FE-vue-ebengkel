@@ -9,21 +9,24 @@ a
           <b-col cols="auto" class="d-flex" style="gap: 20px">
             <div class="box">
               <div class="box-head">Total Sparepart</div>
-              <div class="box-body">
+              <b-spinner v-if="isBusy"></b-spinner>
+              <div class="box-body" v-else>
                 <span>{{ totalSparepart }}</span>
                 <i class="jam jam-check"></i>
               </div>
             </div>
             <div class="box">
               <div class="box-head">Total Vehicle</div>
-              <div class="box-body">
+              <b-spinner v-if="isBusy"></b-spinner>
+              <div class="box-body" v-else>
                 <span>{{ totalVehicle }}</span>
                 <i class="jam jam-check"></i>
               </div>
             </div>
             <div class="box">
               <div class="box-head">Total Order</div>
-              <div class="box-body">
+              <b-spinner v-if="isBusy"></b-spinner>
+              <div class="box-body" v-else>
                 <span>{{ totalOrder }}</span>
                 <i class="jam jam-check"></i>
               </div>
@@ -33,8 +36,10 @@ a
         <b-row>
           <b-col cols="6">
             <div class="chart-box">
-              <div class="chart-title">Order</div>
+              <div class="chart-title">Sparepart Mobil</div>
+              <b-spinner v-if="isBusy"></b-spinner>
               <apexchart
+                v-else
                 height="250"
                 type="bar"
                 class="chart"
@@ -46,8 +51,10 @@ a
           </b-col>
           <b-col cols="6"
             ><div class="chart-box">
-              <div class="chart-title">Order</div>
+              <div class="chart-title">Sparepart Motor</div>
+              <b-spinner v-if="isBusy"></b-spinner>
               <apexchart
+                v-else
                 height="250"
                 type="bar"
                 class="chart"
@@ -60,8 +67,10 @@ a
         <b-row>
           <b-col cols="6">
             <div class="chart-box">
-              <div class="chart-title">Sparepart</div>
+              <div class="chart-title">Order</div>
+              <b-spinner v-if="isBusy"></b-spinner>
               <apexchart
+                v-else
                 height="250"
                 type="bar"
                 class="chart"
@@ -91,6 +100,7 @@ export default {
   data() {
     return {
       breadcrumbs: ["Dashboard"],
+      isBusy: false,
       totalSparepart: "",
       totalVehicle: "",
       totalOrder: "",
@@ -101,7 +111,7 @@ export default {
         },
         chartSeries: [
           {
-            name: "Total Payment",
+            name: "Total Order",
             data: [],
           },
         ],
@@ -137,10 +147,11 @@ export default {
   },
 
   methods: {
-    async HandleFetch() {
+    HandleFetch() {
       this.isBusy = true;
       DashboardService.Get()
         .then((res) => {
+          this.isBusy = false;
           const data = res.data.data;
 
           this.totalSparepart = data.sparepartCount;
@@ -182,23 +193,14 @@ export default {
       return {
         chart: {
           width: "100%",
-          toolbar: {
-            show: false,
-          },
-        },
-        grid: {
-          show: false,
         },
         xaxis: {
           type: "category",
           categories: categories,
         },
-        colors: ["#053364"],
+        colors: ["#ffd205"],
         dataLabels: {
           enabled: false,
-        },
-        legend: {
-          show: false,
         },
       };
     },

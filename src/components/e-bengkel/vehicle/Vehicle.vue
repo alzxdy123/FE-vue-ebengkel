@@ -274,7 +274,7 @@ export default {
         type: "",
         merk: "",
         years: "",
-        user_id: 3,
+        user_id: "",
       };
       this.$nextTick(() => {
         this.$bvModal.show("form-modal");

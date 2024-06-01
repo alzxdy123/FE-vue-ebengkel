@@ -1,7 +1,7 @@
 <template>
   <div class="sparepart-detail">
     <breadcrumbs :breadcrumbs="breadcrumbs" />
-    <span class="page-title">Vehicle</span>
+    <span class="page-title">Order Details</span>
     <section>
       <b-container v-if="isBusy">
         <b-row align-h="center">
@@ -36,19 +36,9 @@
               <div class="title mr-3 text-capitalize">Order Date</div>
               <div class="value">{{ item.order_date }}</div>
             </div>
-          </b-col>
-          <b-col cols="6">
             <div class="d-flex">
-              <div class="title mr-3 text-capitalize">Vehicle Merk</div>
-              <div class="value">{{ item.vehicle.merk }}</div>
-            </div>
-            <div class="d-flex">
-              <div class="title mr-3 text-capitalize">Police Number</div>
-              <div class="value">{{ item.vehicle.police_number }}</div>
-            </div>
-            <div class="d-flex">
-              <div class="title mr-3 text-capitalize">Vehicle Years</div>
-              <div class="value">{{ item.vehicle.years }}</div>
+              <div class="title mr-3 text-capitalize">Total Price</div>
+              <div class="value">{{ item.actual_total_price }}</div>
             </div>
           </b-col>
         </b-row>
@@ -114,16 +104,11 @@ export default {
   },
   data() {
     return {
-      breadcrumbs: ["Vehicle", "Detail"],
+      breadcrumbs: ["Order", "Detail"],
       orderID: "",
       item: {
         id: "",
         order_date: "",
-        vehicle: {
-          merk: "",
-          years: "",
-          police_number: "",
-        },
         author: {
           username: "",
         },

@@ -10,26 +10,36 @@
       </b-container>
     </template>
     <b-container fluid>
-      <b-form>
+      <b-form @submit.prevent="handleSave()">
         <b-row>
           <b-col cols="12">
             <b-form-group label="Customer">
-              <b-form-input
+              <b-form-select
+                style="font-size: 13px"
                 v-model="formData.user"
                 name="user"
                 v-validate="formRules.user"
                 data-vv-as="user"
                 :state="validateState('user')"
-              ></b-form-input>
-              <b-form-invalid-feedback id="user-invalid-feedback">{{
-                errors.first("user")
-              }}</b-form-invalid-feedback>
+              >
+                <option
+                  v-for="user in users"
+                  :key="user.id"
+                  :value="user.id"
+                  style="font-size: 13px; font-weight: 600"
+                >
+                  {{ user.username }}
+                </option>
+              </b-form-select>
+              <b-form-invalid-feedback id="user-invalid-feedback">
+                {{ errors.first("user") }}
+              </b-form-invalid-feedback>
             </b-form-group>
           </b-col>
         </b-row>
-        <b-row>
+        <!-- <b-row>
           <b-col cols="12">
-            <b-form-group label="Sparepart">
+            <b-form-group label="Vehicle">
               <b-form-select
                 v-model="formData.vehicle"
                 name="vehicle"
@@ -52,7 +62,7 @@
               }}</b-form-invalid-feedback>
             </b-form-group>
           </b-col>
-        </b-row>
+        </b-row> -->
         <div v-for="(detail, index) in formData.details" :key="index">
           <b-row>
             <b-col cols="8">
@@ -155,7 +165,7 @@ export default {
   data() {
     return {
       formData: {
-        user: "Bengkel Customer",
+        user: "",
         vehicle: "",
         details: [
           {
@@ -164,6 +174,7 @@ export default {
           },
         ],
       },
+      users: [],
       vehicles: [],
       sparepart: [],
       formRules: {
@@ -239,21 +250,21 @@ export default {
       });
     },
 
-    FetchVehicle() {
-      VehicleService.GetAll()
-        .then((res) => {
-          this.vehicles = res.data.data;
-        })
-        .catch((err) => {
-          this.$notify({
-            group: "message",
-            title: "Error",
-            text: err.response.data.message,
-            type: "error",
-            duration: 5000,
-          });
-        });
-    },
+    // FetchVehicle() {
+    //   VehicleService.GetAll()
+    //     .then((res) => {
+    //       this.vehicles = res.data.data;
+    //     })
+    //     .catch((err) => {
+    //       this.$notify({
+    //         group: "message",
+    //         title: "Error",
+    //         text: err.response.data.message,
+    //         type: "error",
+    //         duration: 5000,
+    //       });
+    //     });
+    // },
     FetchSparepart() {
       SparepartService.GetAll()
         .then((res) => {
@@ -275,11 +286,28 @@ export default {
     removeDetail(index) {
       this.formData.details.splice(index, 1);
     },
+
+    FetchUser() {
+      VehicleService.Author()
+        .then((res) => {
+          this.users = res.data.data;
+        })
+        .catch((err) => {
+          this.$notify({
+            group: "message",
+            title: "Error",
+            text: err.response.data.message,
+            type: "error",
+            duration: 5000,
+          });
+        });
+    },
   },
 
   mounted() {
     this.FetchSparepart();
-    this.FetchVehicle();
+    // this.FetchVehicle();
+    this.FetchUser();
   },
 };
 </script>

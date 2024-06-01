@@ -6,7 +6,7 @@
       <div class="form-navigation mb-4">
         <b-container fluid>
           <b-row no-gutters align-h="between">
-            <b-col cols="6" class="d-flex">
+            <b-col cols="3" class="d-flex">
               <b-form-group class="search full">
                 <b-form-input
                   v-model="filterQuery.name"

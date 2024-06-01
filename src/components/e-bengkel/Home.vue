@@ -3,11 +3,10 @@
     <div class="header-group">
       <div class="header">
         <div class="logo">
-          <div class="role">Role</div>
+          <div class="role">{{ username }}</div>
           <p>E-bengkel</p>
         </div>
         <div class="header-navigation">
-          <div class="menu-header">Language</div>
           <router-link
             class="menu-header"
             style="text-decoration: none !important"
@@ -16,8 +15,11 @@
           >
             Dashboard
           </router-link>
-          <div class="menu-header" @click="HandleLogout()">Log out</div>
-          <div class="menu-header">User</div>
+          <div class="menu-header" @click="HandleLogout()">
+            <i class="jam jam-power" style="color: red; font-size: 13px"></i>
+            Log out
+          </div>
+          <div class="menu-header">{{ username }}</div>
         </div>
       </div>
 

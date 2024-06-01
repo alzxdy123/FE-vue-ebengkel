@@ -81,7 +81,7 @@ export default {
     return {
       chapcha: "",
       chapchaInput: "",
-      username: "bengkel",
+      username: "admin",
       password: "admin",
       chapchaError: "",
       errorMessage: "",
