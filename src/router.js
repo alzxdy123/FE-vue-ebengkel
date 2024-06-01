@@ -16,6 +16,7 @@ import VehicleDetail from "./components/e-bengkel/vehicle/VehicleDetail.vue";
 
 import Order from "./components/e-bengkel/order/Order.vue";
 import OrderDetail from "./components/e-bengkel/order/OrderDetail.vue";
+import Category from "./components/e-bengkel/category/Category.vue";
 
 Vue.use(VueRouter);
 
@@ -79,6 +80,13 @@ const routes = [
       {
         path: "/order-detail",
         component: OrderDetail,
+        meta: {
+          requiresAuth: true,
+        },
+      },
+      {
+        path: "/category",
+        component: Category,
         meta: {
           requiresAuth: true,
         },

@@ -32,6 +32,14 @@
             <i class="jam jam-chevron-down"></i>
           </router-link>
           <router-link
+            to="/category"
+            class="nav-menu-header"
+            :class="{ active: $route.path === '/category' }"
+          >
+            <p>Category</p>
+            <i class="jam jam-chevron-down"></i>
+          </router-link>
+          <router-link
             to="/vehicle"
             class="nav-menu-header"
             :class="{ active: $route.path === '/vehicle' }"
